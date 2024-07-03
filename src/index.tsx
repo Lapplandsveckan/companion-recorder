@@ -188,7 +188,8 @@ async function main(dest: string) {
     await client.downloadTo(path.join(folder, name), file.name);
     status.percentage = 100;
 
-    await fs.rename(path.join(folder, name), path.join(dest, newName));
+    await fs.cp(path.join(folder, name), path.join(dest, newName), { recursive: true });
+    await fs.rm(path.join(folder, name));
     console.log('Downloaded', file.name, 'to', path.join(dest, newName));
 
     client.trackProgress();
