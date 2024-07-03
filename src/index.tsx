@@ -79,7 +79,15 @@ function getBlankElement() {
 
                 backgroundColor: 'black',
             }}
-        />
+        >
+            <span
+                style={{
+                    color: 'white',
+                }}
+            >
+                -
+            </span>
+        </div>
     );
 }
 
