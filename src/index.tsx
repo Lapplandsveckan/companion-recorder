@@ -160,7 +160,7 @@ function generateName() {
     }
 
     const day = days[current.getDay() + dayOffset];
-    return `2024070${current.getDay() + dayOffset} ${day}/${day.substring(0, 3)} ${time}`;
+    return path.join(`2024070${current.getDay() + dayOffset} ${day}`, `${day.substring(0, 3)} ${time}`);
 }
 
 async function main(dest: string) {
@@ -184,6 +184,7 @@ async function main(dest: string) {
         status.percentage = 100 * info.bytes / file.size;
         console.log(format(info.bytes, file.size));
     });
+
     await client.downloadTo(path.join(folder, name), file.name);
     status.percentage = 100;
 
@@ -215,6 +216,7 @@ app.post('/download', (req, res) => {
             errors.push(e);
             setTimeout(() => errors.shift(), 1000 * 60 * 5); // Remove after 5 minutes
 
+            console.log(e);
             console.error('Failed to download');
         });
 });
