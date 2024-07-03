@@ -232,8 +232,6 @@ app.get('/button', async (req, res) => {
     if (status) element = getPercentElement(status.percentage);
     if (errors.length) element = getErrorElement();
 
-    element = getErrorElement();
-
     const buffer = await generateButton(element);
     res.end(buffer);
 });
