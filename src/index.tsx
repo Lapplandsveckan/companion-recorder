@@ -198,7 +198,7 @@ async function main(dest: string) {
     status.percentage = 100;
 
     let extension = '';
-    for (let i = 0; existsSync(path.join(dest, generatedName + extension + path.extname(file.name))); i++)
+    for (let i = 1; existsSync(path.join(dest, generatedName + extension + path.extname(file.name))); i++)
         extension = ' ' + i;
 
     const newName = generatedName + extension + path.extname(file.name);
