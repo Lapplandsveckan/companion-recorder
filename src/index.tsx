@@ -7,6 +7,7 @@ import express from 'express';
 import satori from 'satori';
 import React, {ReactNode} from 'react';
 import { renderAsync } from '@resvg/resvg-js';
+import {existsSync} from 'node:fs';
 
 const fonts = {
     inter: {
@@ -185,7 +186,7 @@ async function main(dest: string) {
     const file = files.pop();
 
     const name = v4() + path.extname(file.name);
-    const newName = generateName() + path.extname(file.name);
+    const generatedName = generateName();
 
     console.log('Downloading', file.name);
     client.trackProgress(info => {
@@ -196,6 +197,11 @@ async function main(dest: string) {
     await client.downloadTo(path.join(folder, name), file.name);
     status.percentage = 100;
 
+    let extension = '';
+    for (let i = 0; existsSync(path.join(dest, generatedName + extension + path.extname(file.name))); i++)
+        extension = ' ' + i;
+
+    const newName = generatedName + extension + path.extname(file.name);
     await fs.cp(path.join(folder, name), path.join(dest, newName), { recursive: true });
     await fs.rm(path.join(folder, name));
     console.log('Downloaded', file.name, 'to', path.join(dest, newName));
