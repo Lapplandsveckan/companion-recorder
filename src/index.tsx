@@ -232,8 +232,8 @@ app.get('/button', async (req, res) => {
     res.contentType('image/png');
 
     let element = getBlankElement();
-    if (status) element = getPercentElement(status.percentage);
     if (errors.length) element = getErrorElement();
+    if (status) element = getPercentElement(status.percentage);
 
     const buffer = await generateButton(element);
     res.end(buffer);
