@@ -1,0 +1,41 @@
+{
+	"name": "lappis-recorder",
+	"version": "0.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"scripts": {
+		"start": "tsx src/index.tsx",
+		"build": "tsc && pkg ."
+	},
+	"dependencies": {
+		"@resvg/resvg-js": "^2.6.2",
+		"basic-ftp": "^5.0.5",
+		"express": "^4.19.2",
+		"pkg": "^5.8.1",
+		"satori": "^0.10.13",
+		"tsx": "^4.16.2",
+		"uuid": "^10.0.0"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.21",
+		"@types/node": "^20.14.9",
+		"@types/uuid": "^10.0.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.5.3"
+	},
+	"pkg": {
+		"assets": [
+			"node_modules/**/*",
+			"fonts/**/*"
+		],
+		"targets": [
+			"node16-win-x64"
+		],
+		"outputPath": "out"
+	},
+	"bin": {
+		"recorder": "./dist/index.js"
+	}
+}
