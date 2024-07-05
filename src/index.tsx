@@ -182,11 +182,14 @@ async function main(dest: string) {
     const data = await client.list();
     const files = data.filter(file => file.name.startsWith("Inspelning"));
 
-    const folder = os.tmpdir();
     const file = files.pop();
-
-    const name = v4() + path.extname(file.name);
     const generatedName = generateName();
+
+    let extension = '';
+    for (let i = 1; existsSync(path.join(dest, generatedName + extension + path.extname(file.name))); i++)
+        extension = ' ' + i;
+
+    const newName = generatedName + extension + path.extname(file.name);
 
     console.log('Downloading', file.name);
     client.trackProgress(info => {
@@ -194,18 +197,10 @@ async function main(dest: string) {
         console.log(format(info.bytes, file.size));
     });
 
-    await client.downloadTo(path.join(folder, name), file.name);
+    await client.downloadTo(path.join(dest, newName), file.name);
     status.percentage = 100;
 
-    let extension = '';
-    for (let i = 1; existsSync(path.join(dest, generatedName + extension + path.extname(file.name))); i++)
-        extension = ' ' + i;
-
-    const newName = generatedName + extension + path.extname(file.name);
-    await fs.cp(path.join(folder, name), path.join(dest, newName), { recursive: true });
-    await fs.rm(path.join(folder, name));
     console.log('Downloaded', file.name, 'to', path.join(dest, newName));
-
     client.trackProgress();
 }
 
